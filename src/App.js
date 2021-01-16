@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TodoList from './TodoList'
+import Home from './Home'
+import Menu from './Menu'
+import Hero from './Hero'
+import Footer from './Footer'
 import uuidv4 from 'uuid/v4'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
@@ -39,13 +48,25 @@ function App() {
   }
 
   return (
-    <>
-      <TodoList todos={todos} toggleTodo={toggleTodo} />
+    <Router>
+    <Menu/>
+    <Hero/>
+    <div className="mainContainer">
+      <Switch>
+        <Route path="/todo">
+        <TodoList todos={todos} toggleTodo={toggleTodo} />
       <input ref={todoNameRef} type="text" />
       <button onClick={handleAddTodo}>Add Todo</button>
       <button onClick={handleClearTodos}>Clear Complete</button>
       <div>{todos.filter(todo => !todo.complete).length} left to do</div>
-    </>
+        </Route>
+        <Route path="/">
+          <Home/>
+        </Route>
+      </Switch>
+    </div>
+    <Footer/>
+    </Router>
   )
 }
 
